@@ -1,0 +1,26 @@
+[4:08 pm, 15/05/2023] Aditya Sangwan🤞: CREATE SEQUENCE seq_patient_id MINVALUE 10000001
+START WITH 10000001
+MAXVALUE 19999999
+CACHE 10;
+CREATE OR REPLACE TRIGGER tr_patient BEFORE INSERT ON patient FOR EACH ROW BEGIN
+SELECT
+LPAD(RTRIM(RTRIM(TO_CHAR(seq_patient_id.NEXTVAL))),10,'0') INTO :NEW.patient_id FROM DUAL;
+END;
+[4:08 pm, 15/05/2023] Aditya Sangwan🤞: INSERT INTO PATIENT(first_name, last_name, nationality, gender, address, dob, phone, email)
+VALUES('Manipal', 'Singh', 'India', 'male', 'A999 - R191 - V700', '22-oct-95', 22698817, 'Manipal@hotmail.com');
+CREATE OR REPLACE PROCEDURE AddPatient(
+first_name IN VARCHAR2 , last_name IN VARCHAR2, nationality IN VARCHAR2, gender IN VARCHAR2, address IN VARCHAR2, dob IN DATE,
+phone IN NUMBER, email IN VARCHAR2
+) AS BEGIN
+INSERT INTO patient(first_name, last_name, nationality, gender, address, dob, phone, email) VALUES (first_name, last_name, nationality, gender, address, dob, phone, email);
+COMMIT;
+END;
+/
+EXECUTE AddPatient('lebron', 'james', 'usa', 'male', 'A999 - R192 - V207', '30-dec-84', 88542021, 'lebron@gmail.com');
+SELECT MIN(SALARY) FROM PAYROLL; SELECT MAX(SALARY) FROM PAYROLL; SELECT employee_id, salary
+FROM payroll p1
+WHERE 3-1 = (SELECT COUNT(DISTINCT salary) FROM payroll p2
+WHERE p2.salary > p1.salary);
+SELECT em.employee_id, first_name || ' ' || last_name AS full_name, salary
+FROM employee_master em
+JOIN payroll p ON em.employee_id = p.employee_id;
